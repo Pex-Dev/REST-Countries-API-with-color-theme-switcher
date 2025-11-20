@@ -1,6 +1,6 @@
-import Header from "./assets/components/Header";
-import FlagsList from "./assets/components/FlagsList";
-import CountryProvider from "./assets/context/CountryContext";
+import Header from "./components/Header";
+import FlagsList from "./components/FlagsList";
+import CountryProvider from "./context/CountryContext";
 
 function App() {
   return (
