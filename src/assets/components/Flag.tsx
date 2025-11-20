@@ -44,7 +44,7 @@ export default function Flag({ country }: { country?: CountryLite }) {
     <ul>
       <button
         onClick={() => setCountry(country ? country : null)}
-        className="rounded-lg overflow-hidden bg-white dark:bg-dark-mode-elements shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer"
+        className="w-full rounded-lg overflow-hidden bg-white dark:bg-dark-mode-elements shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer"
       >
         <div className="aspect-video w-full">
           {country ? (
