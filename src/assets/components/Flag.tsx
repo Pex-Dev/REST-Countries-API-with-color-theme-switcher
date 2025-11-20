@@ -41,8 +41,11 @@ export default function Flag({ country }: { country?: CountryLite }) {
   };
 
   return (
-    <ul className="rounded-lg overflow-hidden bg-white dark:bg-dark-mode-elements shadow-md">
-      <button onClick={() => setCountry(country ? country : null)}>
+    <ul>
+      <button
+        onClick={() => setCountry(country ? country : null)}
+        className="rounded-lg overflow-hidden bg-white dark:bg-dark-mode-elements shadow-md transition-transform hover:-translate-y-0.5 cursor-pointer"
+      >
         <div className="aspect-video w-full">
           {country ? (
             <img
@@ -56,7 +59,7 @@ export default function Flag({ country }: { country?: CountryLite }) {
           )}
         </div>
 
-        <div className="p-4 md:p-5 lg:p-7">
+        <div className="p-4 md:p-5 lg:p-7 flex flex-col text-left">
           <h2 className="font-bold font-nunito-sans dark:text-white min-h-6 ">
             {country && country.name.common}
           </h2>
