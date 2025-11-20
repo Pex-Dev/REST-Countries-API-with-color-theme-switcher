@@ -1,15 +1,15 @@
+import { useCountry } from "./context/CountryContext";
 import Header from "./components/Header";
 import FlagsList from "./components/FlagsList";
-import CountryProvider from "./context/CountryContext";
+import CountryDetails from "./components/CountryDetails";
 
 function App() {
+  const { country } = useCountry();
   return (
-    <CountryProvider>
-      <div className="min-h-dvh ">
-        <Header />
-        <FlagsList />
-      </div>
-    </CountryProvider>
+    <div className="min-h-dvh ">
+      <Header />
+      {country ? <CountryDetails /> : <FlagsList />}
+    </div>
   );
 }
 
