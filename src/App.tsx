@@ -1,5 +1,5 @@
 import Header from "./assets/components/Header";
-import Flags from "./assets/components/FlagsList";
+import FlagsList from "./assets/components/FlagsList";
 import CountryProvider from "./assets/context/CountryContext";
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <CountryProvider>
       <div className="min-h-dvh ">
         <Header />
-        <Flags />
+        <FlagsList />
       </div>
     </CountryProvider>
   );
