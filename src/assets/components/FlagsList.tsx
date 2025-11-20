@@ -3,7 +3,7 @@ import FilterButton from "./FilterButton";
 import { useCountry } from "../context/CountryContext";
 import Flag from "./Flag";
 
-export default function Flags() {
+export default function FlagList() {
   const { countryList, loading } = useCountry();
   return (
     <div className="px-5 my-10 max-w-[1440px] mx-auto">
