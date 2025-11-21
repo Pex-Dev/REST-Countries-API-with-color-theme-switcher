@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function FilterButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -6,11 +6,29 @@ export default function FilterButton() {
     "Africa" | "America" | "Asia" | "Europe" | "Oceania" | null
   >(null);
 
+  const filterRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="relative w-fit">
+    <div ref={filterRef} className="relative w-fit">
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="bg-white dark:bg-dark-mode-elements px-6 py-3 md:py-4 shadow font-nunito-sans rounded md:rounded-md min-w-[195.61px] text-black  dark:text-white flex justify-between items-center gap-5 hover:cursor-pointer"
+        className="bg-white dark:bg-dark-mode-elements px-6 py-3 md:py-4 shadow font-nunito-sans rounded md:rounded-md min-w-[195.61px] text-black  dark:text-white flex justify-between items-center gap-5 hover:cursor-pointer focus:outline-1 focus:outline-neutral-400 focus:dark:outline-neutral-500 "
       >
         <span>{filter ? filter : "Filter by Region"}</span>
         <svg
@@ -30,45 +48,71 @@ export default function FilterButton() {
       {isOpen && (
         <div className="absolute bg-white dark:bg-dark-mode-elements mt-2 p-5 w-full shadow rounded md:rounded-md">
           <ul className="flex flex-col gap-1 font-nunito-sans z-10">
-            <li
-              className="cursor-default dark:text-white flex justify-between"
-              onClick={() =>
-                filter === "Africa" ? setFilter(null) : setFilter("Africa")
-              }
-            >
-              <span>Africa</span> {filter === "Africa" ? "✓" : ""}
+            <li>
+              <button
+                className="cursor-default dark:text-white w-full flex justify-between"
+                onClick={() => {
+                  setFilter(null);
+                  setIsOpen(false);
+                }}
+              >
+                <span>All</span> {filter === null ? "✓" : ""}
+              </button>
             </li>
-            <li
-              className="cursor-default dark:text-white flex justify-between"
-              onClick={() =>
-                filter === "America" ? setFilter(null) : setFilter("America")
-              }
-            >
-              <span>America</span> {filter === "America" ? "✓" : ""}
+            <li>
+              <button
+                className="cursor-default dark:text-white w-full flex justify-between"
+                onClick={() => {
+                  setFilter(filter === "Africa" ? null : "Africa");
+                  setIsOpen(false);
+                }}
+              >
+                <span>Africa</span> {filter === "Africa" ? "✓" : ""}
+              </button>
             </li>
-            <li
-              className="cursor-default dark:text-white flex justify-between"
-              onClick={() =>
-                filter === "Asia" ? setFilter(null) : setFilter("Asia")
-              }
-            >
-              <span>Asia</span> {filter === "Asia" ? "✓" : ""}
+            <li>
+              <button
+                className="cursor-default dark:text-white w-full flex justify-between"
+                onClick={() => {
+                  setFilter(filter === "America" ? null : "America");
+                  setIsOpen(false);
+                }}
+              >
+                <span>America</span> {filter === "America" ? "✓" : ""}
+              </button>
             </li>
-            <li
-              className="cursor-default dark:text-white flex justify-between"
-              onClick={() =>
-                filter === "Europe" ? setFilter(null) : setFilter("Europe")
-              }
-            >
-              <span>Europe</span> {filter === "Europe" ? "✓" : ""}
+            <li>
+              <button
+                className="cursor-default dark:text-white w-full flex justify-between"
+                onClick={() => {
+                  setFilter(filter === "Asia" ? null : "Asia");
+                  setIsOpen(false);
+                }}
+              >
+                <span>Asia</span> {filter === "Asia" ? "✓" : ""}
+              </button>
             </li>
-            <li
-              className="cursor-default dark:text-white flex justify-between"
-              onClick={() =>
-                filter === "Oceania" ? setFilter(null) : setFilter("Oceania")
-              }
-            >
-              <span>Oceania</span> {filter === "Oceania" ? "✓" : ""}
+            <li>
+              <button
+                className="cursor-default dark:text-white w-full flex justify-between"
+                onClick={() => {
+                  setFilter(filter === "Europe" ? null : "Europe");
+                  setIsOpen(false);
+                }}
+              >
+                <span>Europe</span> {filter === "Europe" ? "✓" : ""}
+              </button>
+            </li>
+            <li>
+              <button
+                className="cursor-default dark:text-white w-full flex justify-between"
+                onClick={() => {
+                  setFilter(filter === "Oceania" ? null : "Oceania");
+                  setIsOpen(false);
+                }}
+              >
+                <span>Oceania</span> {filter === "Oceania" ? "✓" : ""}
+              </button>
             </li>
           </ul>
         </div>
