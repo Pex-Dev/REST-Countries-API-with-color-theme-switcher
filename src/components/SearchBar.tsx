@@ -4,10 +4,11 @@ import { useCountry } from "../context/CountryContext";
 export default function SearchBar() {
   const [text, setText] = useState<string>("");
   const id = useId();
-  const { loading } = useCountry();
+  const { loading, setSearchText } = useCountry();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
+    setSearchText(event.target.value);
   };
 
   return (
