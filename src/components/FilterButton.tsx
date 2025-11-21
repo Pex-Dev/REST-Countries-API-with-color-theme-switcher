@@ -8,7 +8,7 @@ export default function FilterButton() {
   >(null);
 
   const filterRef = useRef<HTMLDivElement>(null);
-  const { filterCountriesByRegion } = useCountry();
+  const { filterCountriesByRegion, loading } = useCountry();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,8 +29,13 @@ export default function FilterButton() {
   return (
     <div ref={filterRef} className="relative w-fit">
       <button
+        disabled={loading}
         onClick={() => setIsOpen((prev) => !prev)}
-        className="bg-white dark:bg-dark-mode-elements px-6 py-3 md:py-4 shadow font-nunito-sans rounded md:rounded-md min-w-[195.61px] text-black  dark:text-white flex justify-between items-center gap-5 hover:cursor-pointer focus:outline-1 focus:outline-neutral-400 focus:dark:outline-neutral-500 "
+        className={`bg-white dark:bg-dark-mode-elements ${
+          loading
+            ? "animate-pulse text-black/20  dark:text-white/20 cursor-default"
+            : "text-black  dark:text-white hover:cursor-pointer"
+        } px-6 py-3 md:py-4 shadow font-nunito-sans rounded md:rounded-md min-w-[195.61px] flex justify-between items-center gap-5 focus:outline-1 focus:outline-neutral-400 focus:dark:outline-neutral-500 `}
       >
         <span>{filter ? filter : "Filter by Region"}</span>
         <svg
