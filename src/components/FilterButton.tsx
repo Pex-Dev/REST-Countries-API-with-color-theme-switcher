@@ -8,7 +8,7 @@ export default function FilterButton() {
   >(null);
 
   const filterRef = useRef<HTMLDivElement>(null);
-  const { filterCountriesByRegion, loading } = useCountry();
+  const { setRegion, loading } = useCountry();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -60,7 +60,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(null);
-                  filterCountriesByRegion(null);
+                  setRegion(null);
                   setIsOpen(false);
                 }}
               >
@@ -72,9 +72,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Africa" ? null : "Africa");
-                  filterCountriesByRegion(
-                    filter === "Africa" ? null : "Africa"
-                  );
+                  setRegion(filter === "Africa" ? null : "Africa");
                   setIsOpen(false);
                 }}
               >
@@ -86,9 +84,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Americas" ? null : "Americas");
-                  filterCountriesByRegion(
-                    filter === "Americas" ? null : "Americas"
-                  );
+                  setRegion(filter === "Americas" ? null : "Americas");
                   setIsOpen(false);
                 }}
               >
@@ -100,7 +96,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Asia" ? null : "Asia");
-                  filterCountriesByRegion(filter === "Asia" ? null : "Asia");
+                  setRegion(filter === "Asia" ? null : "Asia");
                   setIsOpen(false);
                 }}
               >
@@ -112,9 +108,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Europe" ? null : "Europe");
-                  filterCountriesByRegion(
-                    filter === "Europe" ? null : "Europe"
-                  );
+                  setRegion(filter === "Europe" ? null : "Europe");
                   setIsOpen(false);
                 }}
               >
@@ -126,9 +120,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Oceania" ? null : "Oceania");
-                  filterCountriesByRegion(
-                    filter === "Oceania" ? null : "Oceania"
-                  );
+                  setRegion(filter === "Oceania" ? null : "Oceania");
                   setIsOpen(false);
                 }}
               >
