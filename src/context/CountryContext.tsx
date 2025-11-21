@@ -5,7 +5,11 @@ type CountryContextType = {
   country: CountryLite | null;
   setCountry: React.Dispatch<React.SetStateAction<CountryLite | null>>;
   countryList: CountryLite[];
+  filteredCountryList: CountryLite[];
   loading: boolean;
+  filterCountriesByRegion: (
+    region: "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
+  ) => void;
 };
 
 type CountryLite = {
@@ -45,6 +49,9 @@ const CountryContext = createContext<CountryContextType | undefined>(undefined);
 
 const CountryProvider = ({ children }: { children: React.ReactNode }) => {
   const [countryList, setCountryList] = useState<CountryLite[]>([]);
+  const [filteredCountryList, setFilteredCountryList] = useState<CountryLite[]>(
+    []
+  );
   const [country, setCountry] = useState<CountryLite | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -74,13 +81,32 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const filterCountriesByRegion = (
+    region: "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
+  ) => {
+    if (region === null) {
+      setFilteredCountryList([]);
+      return;
+    }
+
+    const filtered = countryList.filter((country) => country.region === region);
+    setFilteredCountryList(filtered);
+  };
+
   useEffect(() => {
     fetchCountries();
   }, []);
 
   return (
     <CountryContext.Provider
-      value={{ country, setCountry, countryList, loading }}
+      value={{
+        country,
+        setCountry,
+        countryList,
+        loading,
+        filteredCountryList,
+        filterCountriesByRegion,
+      }}
     >
       {children}
     </CountryContext.Provider>
