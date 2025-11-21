@@ -7,9 +7,11 @@ type CountryContextType = {
   countryList: CountryLite[];
   filteredCountryList: CountryLite[];
   loading: boolean;
+  error: boolean;
   filterCountriesByRegion: (
     region: "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
   ) => void;
+  retryFetch: () => void;
 };
 
 type CountryLite = {
@@ -54,11 +56,13 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [country, setCountry] = useState<CountryLite | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<boolean>(false);
 
   const fetchCountries = async () => {
     if (loading) return;
     try {
       setLoading(true);
+      setFilteredCountryList([]);
       const countries: CountryLite[] | null = await getCountries({
         fields: [
           "name",
@@ -73,6 +77,12 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
           "subregion",
         ],
       });
+      if (!countries) {
+        setError(true);
+        setLoading(false);
+        throw new Error("Failed to fetch countries");
+      }
+      setError(false);
       setCountryList(countries || []);
       setLoading(false);
     } catch (fetchError) {
@@ -93,6 +103,11 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
     setFilteredCountryList(filtered);
   };
 
+  const retryFetch = () => {
+    setError(false);
+    fetchCountries();
+  };
+
   useEffect(() => {
     fetchCountries();
   }, []);
@@ -104,8 +119,10 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
         setCountry,
         countryList,
         loading,
+        error,
         filteredCountryList,
         filterCountriesByRegion,
+        retryFetch,
       }}
     >
       {children}
