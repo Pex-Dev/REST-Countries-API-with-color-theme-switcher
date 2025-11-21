@@ -4,7 +4,8 @@ import { useCountry } from "../context/CountryContext";
 import Flag from "./Flag";
 
 export default function FlagList() {
-  const { countryList, filteredCountryList, loading } = useCountry();
+  const { countryList, filteredCountryList, loading, region, searchText } =
+    useCountry();
   return (
     <div className="px-5 my-10 max-w-[1440px] mx-auto">
       <header className="flex flex-col gap-10 md:flex-row md:justify-between">
@@ -19,7 +20,7 @@ export default function FlagList() {
         </ul>
       ) : (
         <ul className="grid grid-cols-1 px-6 md:px-0 md:grid-cols-3 lg:grid-cols-4 gap-10 lg:gap-18 mt-10">
-          {filteredCountryList.length > 0
+          {region !== null || searchText.length > 0
             ? filteredCountryList.map((country) => (
                 <Flag key={country.name.official} country={country} />
               ))
