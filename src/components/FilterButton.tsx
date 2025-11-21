@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from "react";
+import { useCountry } from "../context/CountryContext";
 
 export default function FilterButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [filter, setFilter] = useState<
-    "Africa" | "America" | "Asia" | "Europe" | "Oceania" | null
+    "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
   >(null);
 
   const filterRef = useRef<HTMLDivElement>(null);
+  const { filterCountriesByRegion } = useCountry();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,6 +55,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(null);
+                  filterCountriesByRegion(null);
                   setIsOpen(false);
                 }}
               >
@@ -64,6 +67,9 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Africa" ? null : "Africa");
+                  filterCountriesByRegion(
+                    filter === "Africa" ? null : "Africa"
+                  );
                   setIsOpen(false);
                 }}
               >
@@ -74,11 +80,14 @@ export default function FilterButton() {
               <button
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
-                  setFilter(filter === "America" ? null : "America");
+                  setFilter(filter === "Americas" ? null : "Americas");
+                  filterCountriesByRegion(
+                    filter === "Americas" ? null : "Americas"
+                  );
                   setIsOpen(false);
                 }}
               >
-                <span>America</span> {filter === "America" ? "✓" : ""}
+                <span>Americas</span> {filter === "Americas" ? "✓" : ""}
               </button>
             </li>
             <li>
@@ -86,6 +95,7 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Asia" ? null : "Asia");
+                  filterCountriesByRegion(filter === "Asia" ? null : "Asia");
                   setIsOpen(false);
                 }}
               >
@@ -97,6 +107,9 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Europe" ? null : "Europe");
+                  filterCountriesByRegion(
+                    filter === "Europe" ? null : "Europe"
+                  );
                   setIsOpen(false);
                 }}
               >
@@ -108,6 +121,9 @@ export default function FilterButton() {
                 className="cursor-default dark:text-white w-full flex justify-between"
                 onClick={() => {
                   setFilter(filter === "Oceania" ? null : "Oceania");
+                  filterCountriesByRegion(
+                    filter === "Oceania" ? null : "Oceania"
+                  );
                   setIsOpen(false);
                 }}
               >
