@@ -8,10 +8,15 @@ type CountryContextType = {
   filteredCountryList: CountryLite[];
   loading: boolean;
   error: boolean;
-  filterCountriesByRegion: (
-    region: "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
-  ) => void;
   retryFetch: () => void;
+  region: string | null;
+  setRegion: React.Dispatch<
+    React.SetStateAction<
+      "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
+    >
+  >;
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type CountryLite = {
@@ -57,6 +62,10 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
   const [country, setCountry] = useState<CountryLite | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<boolean>(false);
+  const [region, setRegion] = useState<
+    "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
+  >(null);
+  const [searchText, setSearchText] = useState<string>("");
 
   const fetchCountries = async () => {
     if (loading) return;
@@ -109,18 +118,6 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
     return JSON.parse(cachedCountries) as CountryLite[];
   };
 
-  const filterCountriesByRegion = (
-    region: "Africa" | "Americas" | "Asia" | "Europe" | "Oceania" | null
-  ) => {
-    if (region === null) {
-      setFilteredCountryList([]);
-      return;
-    }
-
-    const filtered = countryList.filter((country) => country.region === region);
-    setFilteredCountryList(filtered);
-  };
-
   const retryFetch = () => {
     setError(false);
     fetchCountries();
@@ -130,6 +127,24 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
     fetchCountries();
   }, []);
 
+  useEffect(() => {
+    let filtered: CountryLite[] =
+      region !== null
+        ? countryList.filter((country) => country.region === region)
+        : countryList;
+
+    filtered =
+      searchText.length > 0
+        ? filtered.filter((c) =>
+            c.name.common
+              .toLocaleLowerCase()
+              .includes(searchText.trim().toLocaleLowerCase())
+          )
+        : filtered;
+
+    setFilteredCountryList(filtered);
+  }, [region, searchText]);
+
   return (
     <CountryContext.Provider
       value={{
@@ -138,8 +153,11 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
         countryList,
         loading,
         error,
+        region,
+        setRegion,
+        searchText,
+        setSearchText,
         filteredCountryList,
-        filterCountriesByRegion,
         retryFetch,
       }}
     >
