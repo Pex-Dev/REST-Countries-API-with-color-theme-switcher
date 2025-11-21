@@ -63,6 +63,15 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       setLoading(true);
       setFilteredCountryList([]);
+
+      const cachedCountries = loadCountriesFromCache();
+      if (cachedCountries) {
+        setCountryList(cachedCountries);
+        setLoading(false);
+        setError(false);
+        return;
+      }
+
       const countries: CountryLite[] | null = await getCountries({
         fields: [
           "name",
@@ -82,6 +91,9 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
         setLoading(false);
         throw new Error("Failed to fetch countries");
       }
+
+      localStorage.setItem("countries", JSON.stringify(countries));
+
       setError(false);
       setCountryList(countries || []);
       setLoading(false);
@@ -89,6 +101,12 @@ const CountryProvider = ({ children }: { children: React.ReactNode }) => {
       console.log(fetchError);
       setLoading(false);
     }
+  };
+
+  const loadCountriesFromCache = (): CountryLite[] | null => {
+    const cachedCountries = localStorage.getItem("countries");
+    if (!cachedCountries) return null;
+    return JSON.parse(cachedCountries) as CountryLite[];
   };
 
   const filterCountriesByRegion = (
