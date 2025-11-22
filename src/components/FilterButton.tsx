@@ -50,8 +50,8 @@ export default function FilterButton() {
         </svg>
       </button>
       {isOpen && (
-        <div className="absolute bg-white dark:bg-dark-mode-elements mt-2 p-5 w-full shadow rounded md:rounded-md">
-          <ul className="flex flex-col gap-1 font-nunito-sans z-10">
+        <div className="absolute bg-white dark:bg-dark-mode-elements mt-2 p-5 w-full shadow rounded md:rounded-md z-10">
+          <ul className="flex flex-col gap-1 font-nunito-sans">
             <li>
               <button
                 className="cursor-default dark:text-white w-full flex justify-between"
