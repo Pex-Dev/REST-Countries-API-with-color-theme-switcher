@@ -1,13 +1,11 @@
-import { useState, useId } from "react";
+import { useId } from "react";
 import { useCountry } from "../context/CountryContext";
 
 export default function SearchBar() {
-  const [text, setText] = useState<string>("");
   const id = useId();
-  const { loading, setSearchText } = useCountry();
+  const { loading, searchText, setSearchText } = useCountry();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
     setSearchText(event.target.value);
   };
 
@@ -19,14 +17,15 @@ export default function SearchBar() {
         placeholder="Search for a country..."
         onChange={(e) => handleChange(e)}
         disabled={loading}
+        value={searchText}
         className={`bg-white dark:bg-dark-mode-elements ${
           loading ? "animate-pulse" : ""
         } shadow w-full rounded md:rounded-md py-3 md:py-4 text-light-mode-input dark:text-white focus:outline-1 focus:outline-neutral-400 focus:dark:outline-neutral-500 ${
-          text.length > 0 ? "px-5" : "px-15"
+          searchText.length > 0 ? "px-5" : "px-15"
         }`}
       />
 
-      {text.length === 0 && (
+      {searchText.length === 0 && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 512 512"
